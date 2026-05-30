@@ -25,6 +25,18 @@ def index():
     total = calculate_total(cart)
     return render_template('index.html', flowers=flowers, addons=addons, cart=cart, total=total)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/order_history')
+def order_history():
+    return render_template('order_history.html')
+
+@app.route('/invoice')
+def invoices():
+    return render_template('invoices.html')
+
 # add selected flower to shopping cart
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
@@ -51,7 +63,7 @@ def add_to_cart():
     return redirect(url_for('index'))
 
 # remove an item from the shopping cart
-@app.route('/remove_from_cart<item>')
+@app.route('/remove_from_cart/<item>')
 def remove_from_cart(item):
     cart = session.get('cart', {})
 
