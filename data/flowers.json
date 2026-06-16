@@ -3,6 +3,7 @@
     "Tulip": {"price": 7, "stock": 40},
     "Lily": {"price": 12, "stock": 30},
     "Daisy": {"price": 5, "stock": 100},
-    "Orchids": {"price": 20, "stock": 10}
+    "Orchids": {"price": 20, "stock": 10},
+    "Petunia": {"price": 12, "stock": 45}
 }
 

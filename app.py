@@ -23,7 +23,8 @@ def index():
     flowers, addons = load_data()
     cart = session.get('cart', {})
     total = calculate_total(cart)
-    return render_template('index.html', flowers=flowers, addons=addons, cart=cart, total=total)
+    selected_addons = session.get('selected_addons', {})
+    return render_template('index.html', flowers=flowers, addons=addons, cart=cart, total=total, selected_addons=selected_addons)
 
 @app.route('/about')
 def about():
@@ -60,6 +61,27 @@ def add_to_cart():
     session['cart'] = cart # update session
     session.modified = True # force flask to save it
     flash(f"{quantity} {flower}(s) added to cart.")
+    return redirect(url_for('index'))
+
+# add selected add ons to the session
+@app.route('/select_addon', methods=['POST'])
+def select_addon():
+    selected_addons = session.get('selected_addons', {}) # Get existing addons from session or start afresh
+    _, addons = load_data()
+
+    selected_keys = request.form.getlist('addons')
+
+    if not selected_keys:
+        flash("No add-ons selected")
+    else:
+        for addon in selected_keys:
+            if addon in addons:
+                selected_addons[addon] = float(addons[addon]['price'])
+    
+        session['selected_addons'] = selected_addons
+        session.modified = True
+        print(session)
+        flash(f"{selected_addons} add-ons added to cart")
     return redirect(url_for('index'))
 
 # remove an item from the shopping cart
